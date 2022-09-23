@@ -1,7 +1,8 @@
 package ch.css.kata;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -18,14 +19,13 @@ class GameOfLifeTest {
     @InjectMocks
     GameOfLife testee;
 
-    @Test
-    void shouldRenderInit() {
-        int boardSize = 3;
+    @ParameterizedTest
+    @CsvSource({"3","4"})
+    void shouldRenderInit(int boardSize) {
 
         String renderedBoard = testee.init(boardSize);
 
         assertEquals(boardSize * boardSize, renderedBoard.length());
-
     }
 
 }
