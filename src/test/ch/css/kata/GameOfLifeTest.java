@@ -20,7 +20,7 @@ class GameOfLifeTest {
     GameOfLife testee;
 
     @ParameterizedTest
-    @CsvSource({"3","4"})
+    @CsvSource({"3", "4"})
     void shouldRenderInit(int boardSize) {
 
         String renderedBoard = testee.init(boardSize);
