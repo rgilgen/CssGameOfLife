@@ -10,22 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class GameOfLifeTest {
-    /**
-     * oooo
-     * oxoo
-     * oooo
-     * oooo
-     */
+    private final char ALIVE_CHARACTER = 'x'; // TODO character aus testee lesen
+
     @InjectMocks
     GameOfLife testee;
 
     @ParameterizedTest
-    @CsvSource({"3", "4"})
-    void shouldRenderInit(int boardSize) {
+    @CsvSource({"3,3", "4,4"})
+    void shouldRenderInit(int boardSize, int aliveSize) {
 
-        String renderedBoard = testee.init(boardSize);
+        String renderedBoard = testee.init(boardSize, aliveSize);
 
         assertEquals(boardSize * boardSize, renderedBoard.length());
+
+        long aliveCount = renderedBoard.chars()
+                .filter(e -> e == ALIVE_CHARACTER)
+                .count();
+        assertEquals(aliveSize, aliveCount);
     }
 
 }
