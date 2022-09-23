@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Board {
     private final List<List<Cell>> cells = new ArrayList<>();
 
-    public String init(int size, int aliveSize) {
+    public String init(int size, List<Point> aliveCoordinates ) {
         for (int rowIndex = 0; rowIndex < size; rowIndex++) {
-            cells.add(createRow(size, false));
+            cells.add(createRow(size, rowIndex));
         }
-        cells.set(0, createCellsAlive(aliveSize));
+        setAliveCells(aliveCoordinates);
         return toString();
     }
 
-    private List<Cell> createCellsAlive(int aliveSize) {
-        return createRow(aliveSize, true);
+    private void setAliveCells(List<Point> aliveCoordinates) {
+        aliveCoordinates.forEach(c -> cells.get(c.x()).set(c.y(),new Cell(true, c)));
     }
 
-    private List<Cell> createRow(int columns, boolean alive) {
+    private List<Cell> createRow(int columns, int rowIndex) {
         List<Cell> row = new ArrayList<>();
         for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
-            row.add(new Cell(alive));
+            row.add(new Cell(false, new Point(rowIndex, columnIndex )));
         }
         return row;
     }
@@ -32,12 +31,13 @@ public class Board {
     @Override
     public String toString() {
         return cells.stream()
-                .flatMap(getMapper())
-                .collect(Collectors.joining());
+                .map(getMapper())
+                .collect(Collectors.joining("\n"));
     }
 
-    private static Function<List<Cell>, Stream<? extends String>> getMapper() {
+    private static Function<List<Cell>, String> getMapper() {
         return e -> e.stream()
-                .map(Cell::toString);
+                .map(Cell::toString)
+                .collect(Collectors.joining());
     }
 }

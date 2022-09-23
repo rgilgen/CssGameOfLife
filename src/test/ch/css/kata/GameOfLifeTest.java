@@ -6,6 +6,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
@@ -15,18 +18,21 @@ class GameOfLifeTest {
     @InjectMocks
     GameOfLife testee;
 
+    List<Point> initialAlive = Arrays.asList(new Point(1,0), new Point(1,1), new Point(1,2));
+
     @ParameterizedTest
-    @CsvSource({"3,3", "4,4"})
-    void shouldRenderInit(int boardSize, int aliveSize) {
+    @CsvSource({"3", "4"})
+    void shouldRenderInit(int boardSize) {
 
-        String renderedBoard = testee.init(boardSize, aliveSize);
+        String renderedBoard = testee.init(boardSize, initialAlive);
 
-        assertEquals(boardSize * boardSize, renderedBoard.length());
+        System.out.println(testee.toString());
+        assertEquals(boardSize * boardSize, renderedBoard.replaceAll("\n","").length());
 
         long aliveCount = renderedBoard.chars()
                 .filter(e -> e == ALIVE_CHARACTER)
                 .count();
-        assertEquals(aliveSize, aliveCount);
+        assertEquals(3, aliveCount);
     }
 
 }
