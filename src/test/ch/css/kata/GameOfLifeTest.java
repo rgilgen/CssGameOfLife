@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class GameOfLifeTest {
-    private final char ALIVE_CHARACTER = 'x'; // TODO character aus testee lesen
+    private final char ALIVE_CHARACTER = 'x';
 
     @InjectMocks
     GameOfLife testee;
