@@ -18,21 +18,20 @@ class GameOfLifeTest {
     @InjectMocks
     GameOfLife testee;
 
-    List<Point> initialAlive = Arrays.asList(new Point(1,0), new Point(1,1), new Point(1,2));
+    List<Point> initialAlive = Arrays.asList(new Point(1, 0), new Point(1, 1), new Point(1, 2));
 
     @ParameterizedTest
-    @CsvSource({"3", "4"})
-    void shouldRenderInit(int boardSize) {
+    @CsvSource({"3,oooxxxooo",
+            "4,ooooxxxooooooooo"})
+    void shouldRenderInit(int boardSize, String expectedBoard) {
 
         String renderedBoard = testee.init(boardSize, initialAlive);
-
         System.out.println(testee.toString());
-        assertEquals(boardSize * boardSize, renderedBoard.replaceAll("\n","").length());
 
-        long aliveCount = renderedBoard.chars()
-                .filter(e -> e == ALIVE_CHARACTER)
-                .count();
-        assertEquals(3, aliveCount);
+        assertEquals(boardSize * boardSize, renderedBoard.replaceAll("\n", "")
+                .length());
+        assertEquals(expectedBoard, renderedBoard.replaceAll("\n", ""));
     }
+
 
 }
